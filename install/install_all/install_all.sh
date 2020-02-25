@@ -42,8 +42,7 @@ if [ "$(id -u)" == "0" ]; then
    exit 1
 fi
 
-
-echo "############### Installation des paquets systèmes ###############"
+echo ; echo "############### Installation des paquets systèmes ###############" ; echo
 
 
 # Updating language locale
@@ -56,7 +55,7 @@ echo "export LANGUAGE=$my_local" >> ~/.bashrc
 source ~/.bashrc
 
 # Installing required environment for GeoNature and TaxHub
-echo "Installation de l'environnement logiciel..."
+echo ; echo "Installation de l'environnement logiciel..." ; echo
 
 sudo apt-get -y install ntpdate 
 sudo ntpdate-debian 
@@ -133,12 +132,12 @@ fi
 # Apache configuration
 sudo sh -c 'echo "ServerName localhost" >> /etc/apache2/apache2.conf'
 sudo a2enmod rewrite
-sudo a2dismod mod_pyth
+sudo a2dismod mod_python #anciennement mod_pyth, erreur ?
 sudo a2enmod wsgi
 sudo apache2ctl restart
 
 # Installing GeoNature with current user
-echo "Téléchargement et installation de GeoNature ..."
+echo ; echo "Téléchargement et installation de GeoNature ..." ; echo
 wget https://github.com/PnX-SI/GeoNature/archive/$geonature_release.zip
 unzip $geonature_release.zip
 rm $geonature_release.zip
@@ -149,7 +148,7 @@ cd /home/`whoami`/geonature
 
 # Updating GeoNature settings
 cp config/settings.ini.sample config/settings.ini
-echo "Installation de la base de données et configuration de l'application GeoNature ..."
+echo ; echo "Installation de la base de données et configuration de l'application GeoNature ..." ; echo
 my_url="${my_url//\//\\/}"
 proxy_http="${proxy_http//\//\\/}"
 proxy_https="${proxy_https//\//\\/}"
@@ -223,7 +222,7 @@ sudo sh -c 'echo  "Require all granted">> /etc/apache2/sites-available/geonature
 sudo sh -c 'echo  "</Directory>">> /etc/apache2/sites-available/geonature_maintenance.conf'
 
 # Installing TaxHub with current user
-echo "Téléchargement et installation de TaxHub ..."
+echo ; echo "Téléchargement et installation de TaxHub ..." ; echo
 wget https://github.com/PnX-SI/TaxHub/archive/$taxhub_release.zip
 unzip $taxhub_release.zip
 rm $taxhub_release.zip
@@ -232,7 +231,7 @@ sudo chown -R `whoami` /home/`whoami`/taxhub/
 cd /home/`whoami`/taxhub
 
 # Setting configuration of TaxHub
-echo "Configuration de l'application TaxHub ..."
+echo ; echo "Configuration de l'application TaxHub ..." ; echo
 cp settings.ini.sample settings.ini
 sed -i "s/my_local=.*$/my_local=$my_local/g" config/settings.ini
 sed -i "s/drop_apps_db=.*$/drop_apps_db=false/g" settings.ini
@@ -278,7 +277,7 @@ sudo a2enmod proxy_http
 
 # Installation and configuration of UsersHub application (if activated)
 if [ "$install_usershub_app" = true ]; then
-    echo "Installation de l'application Usershub"
+    echo ; echo "Installation de l'application Usershub"  ; echo
 
     wget https://github.com/PnX-SI/UsersHub/archive/$usershub_release.zip
     unzip $usershub_release.zip
@@ -286,7 +285,7 @@ if [ "$install_usershub_app" = true ]; then
     mv UsersHub-$usershub_release /home/`whoami`/usershub/
     sudo chown -R `whoami` /home/`whoami`/usershub/
     cd /home/`whoami`/usershub
-    echo "Installation de la base de données et configuration de l'application UsersHub ..."
+    echo ; echo "Installation de la base de données et configuration de l'application UsersHub ..." ; echo
     cp config/settings.ini.sample config/settings.ini
     sed -i "s/db_host=.*$/db_host=$pg_host/g" config/settings.ini
     sed -i "s/db_name=.*$/db_name=$geonaturedb_name/g" config/settings.ini
@@ -319,3 +318,4 @@ sudo apache2ctl restart
 cd /home/`whoami`/geonature/frontend 
 nvm alias default
 echo "L'installation est terminée!"
+echo ; echo "L'installation est terminée!" ; echo
