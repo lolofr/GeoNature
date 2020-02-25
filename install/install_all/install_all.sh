@@ -120,10 +120,15 @@ sudo apt-get install -y supervisor
 sudo apt-get install -y libsm6 libxrender1 libfontconfig1 
 
 # Creating PostgreSQL user
-echo "Création de l'utilisateur PostgreSQL..."
-sudo -n -u postgres -s psql -c "CREATE ROLE $user_pg WITH LOGIN PASSWORD '$user_pg_pass';"
-#restart postgresql if we launch twice the script
-sudo service postgresql restart
+if $(sudo -u postgres -s psql -h $pg_host -p $pg_port -t -c "SELECT count(*) FROM pg_user WHERE usename='$user_pg'") = 0 #test l'existence de cet utilisateur avant
+	then
+		echo ; echo "Création de l'utilisateur PostgreSQL $user_pg ..." ; echo 
+		sudo -n -u postgres -s psql -h $pg_host -p $pg_port -c "CREATE ROLE $user_pg WITH LOGIN PASSWORD '$user_pg_pass';"
+		#restart postgresql if we launch twice the script
+		sudo service postgresql restart
+	else
+		echo ; echo "L'utilisateur PostgreSQL $user_pg existe déjà" ; echo
+fi
 
 # Apache configuration
 sudo sh -c 'echo "ServerName localhost" >> /etc/apache2/apache2.conf'
@@ -155,6 +160,7 @@ sed -i "s/drop_apps_db=.*$/drop_apps_db=$drop_geonaturedb/g" config/settings.ini
 sed -i "s/db_name=.*$/db_name=$geonaturedb_name/g" config/settings.ini
 sed -i "s/user_pg=.*$/user_pg=$user_pg/g" config/settings.ini
 sed -i "s/db_host=.*$/db_host=$pg_host/g" config/settings.ini
+sed -i "s/db_port=.*$/db_port=$db_port/g" config/settings.ini
 sed -i "s/user_pg_pass=.*$/user_pg_pass=$user_pg_pass/g" config/settings.ini
 sed -i "s/srid_local=.*$/srid_local=$srid_local/g" config/settings.ini
 sed -i "s/install_sig_layers=.*$/install_sig_layers=$install_sig_layers/g" config/settings.ini
