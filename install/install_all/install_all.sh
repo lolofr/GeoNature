@@ -120,7 +120,7 @@ sudo apt-get install -y supervisor
 sudo apt-get install -y libsm6 libxrender1 libfontconfig1 
 
 # Creating PostgreSQL user
-if $(sudo -u postgres -s psql -h $pg_host -p $pg_port -t -c "SELECT count(*) FROM pg_user WHERE usename='$user_pg'") = 0 #test l'existence de cet utilisateur avant
+if [ $(sudo -u postgres -s psql -h $pg_host -p $pg_port -t -c "SELECT count(*) FROM pg_user WHERE usename='$user_pg'") = 0 ] #test l'existence de cet utilisateur avant
 	then
 		echo ; echo "Création de l'utilisateur PostgreSQL $user_pg ..." ; echo 
 		sudo -n -u postgres -s psql -h $pg_host -p $pg_port -c "CREATE ROLE $user_pg WITH LOGIN PASSWORD '$user_pg_pass';"
