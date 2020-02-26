@@ -81,7 +81,7 @@ then
         if $drop_apps_db
             then
             echo "Drop database..."
-            sudo -u postgres -s dropdb $db_name
+            sudo -u postgres -s dropdb  -h $db_host -p $db_port $db_name
         else
             echo "Database exists but the settings file indicate that we don't have to drop it."
         fi
