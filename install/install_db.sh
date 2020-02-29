@@ -115,7 +115,7 @@ then
         write_log "Getting and creating USERS schema (utilisateurs).."
         wget https://raw.githubusercontent.com/PnEcrins/UsersHub/$usershub_release/data/usershub.sql -P tmp/usershub
         export PGPASSWORD=$user_pg_pass;psql -h $pg_host -p $pg_port -U $user_pg -d $db_name -f tmp/usershub/usershub.sql  &>> var/log/install_db.log
-        export PGPASSWORD=$user_pg_pass;psql -h $pg_host -p $pg_port -U $user_pg -d $db_name -f tmp/usershub/usershub_api.sql  &>> var/log/install_db.log
+        #export PGPASSWORD=$user_pg_pass;psql -h $pg_host -p $pg_port -U $user_pg -d $db_name -f tmp/usershub/usershub_api.sql  &>> var/log/install_db.log #où est ce script ?
         
         write_log "Insert minimal data (utilisateurs)"
         wget https://raw.githubusercontent.com/PnEcrins/UsersHub/$usershub_release/data/usershub-data.sql -P tmp/usershub
@@ -133,7 +133,7 @@ then
 
     echo "Download and extract taxref file..."
 
-    wget https://raw.githubusercontent.com/PnX-SI/TaxHub/$taxhub_release/data/inpn/data_inpn_taxhub.sql -P tmp/taxhub
+    wget https://raw.githubusercontent.com/lolofr/TaxHub/amelorion_sql/data/inpn/data_inpn_taxhub.sql -P tmp/taxhub
 
     # sed to replace /tmp/taxhub to ~/<geonature_dir>/tmp.taxhub
     sed -i 's#'/tmp/taxhub'#'$parentdir/tmp/taxhub'#g' tmp/taxhub/data_inpn_taxhub.sql
