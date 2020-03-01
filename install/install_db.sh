@@ -114,8 +114,8 @@ then
      then
         write_log "Getting and creating USERS schema (utilisateurs).."
         wget https://raw.githubusercontent.com/PnEcrins/UsersHub/$usershub_release/data/usershub.sql -P tmp/usershub
-        export PGPASSWORD=$user_pg_pass;psql -h $pg_host -p $pg_port -U $user_pg -d $db_name -f tmp/usershub/usershub.sql  &>> var/log/install_db.log
-        #export PGPASSWORD=$user_pg_pass;psql -h $pg_host -p $pg_port -U $user_pg -d $db_name -f tmp/usershub/usershub_api.sql  &>> var/log/install_db.log #où est ce script ?
+        export PGPASSWORD=$user_pg_pass;psql -h $db_host -p $db_port -U $user_pg -d $db_name -f tmp/usershub/usershub.sql  &>> var/log/install_db.log
+        #export PGPASSWORD=$user_pg_pass;psql -h $db_host -p $db_port -U $user_pg -d $db_name -f tmp/usershub/usershub_api.sql  &>> var/log/install_db.log #où est ce script ?
         
         write_log "Insert minimal data (utilisateurs)"
         wget https://raw.githubusercontent.com/PnEcrins/UsersHub/$usershub_release/data/usershub-data.sql -P tmp/usershub
