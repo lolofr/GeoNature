@@ -187,7 +187,7 @@ then
     unzip tmp/habref/HABREF_50.zip -d tmp/habref
     
     wget https://raw.githubusercontent.com/PnX-SI/Habref-api-module/$habref_api_release/src/pypn_habref_api/data/habref.sql -P tmp/habref
-    wget https://raw.githubusercontent.com/PnX-SI/Habref-api-module/$habref_api_release/src/pypn_habref_api/data/data_inpn_habref.sql -P tmp/habref 
+    wget https://raw.githubusercontent.com/lolofr/Habref-api-module/amelioration_sql/src/pypn_habref_api/data/data_inpn_habref.sql -P tmp/habref 
 
     # sed to replace /tmp/taxhub to ~/<geonature_dir>/tmp.taxhub
     sed -i 's#'/tmp/habref'#'$parentdir/tmp/habref'#g' tmp/habref/data_inpn_habref.sql
