@@ -21,8 +21,7 @@ CREATE TABLE gn_sensitivity.liste_taxons_sensibles
     date_max date
 );
 
-COPY gn_sensitivity.liste_taxons_sensibles 
-FROM '/tmp/geonature/181201_referentiel_donnes_sensibles.csv' DELIMITER ',' CSV HEADER;
+\COPY gn_sensitivity.liste_taxons_sensibles FROM '/tmp/geonature/181201_referentiel_donnes_sensibles.csv' DELIMITER ',' CSV HEADER;
 
 
 
