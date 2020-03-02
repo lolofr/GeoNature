@@ -119,6 +119,7 @@ sudo apt-get install -y supervisor
 sudo apt-get install -y libsm6 libxrender1 libfontconfig1 
 
 # Creating PostgreSQL user
+<<<<<<< HEAD
 if [ $(sudo -u postgres -s psql -h $pg_host -p $pg_port -t -c "SELECT count(*) FROM pg_user WHERE usename='$user_pg'") = 0 ] #test l'existence de cet utilisateur avant
 	then
 		echo ; echo "Création de l'utilisateur PostgreSQL $user_pg ..." ; echo 
@@ -128,6 +129,12 @@ if [ $(sudo -u postgres -s psql -h $pg_host -p $pg_port -t -c "SELECT count(*) F
 	else
 		echo ; echo "L'utilisateur PostgreSQL $user_pg existe déjà" ; echo
 fi
+=======
+echo ; echo "Création de l'utilisateur PostgreSQL..." ; echo
+sudo -n -u postgres -s psql -c "CREATE ROLE $user_pg WITH LOGIN PASSWORD '$user_pg_pass';"
+#restart postgresql if we launch twice the script
+sudo service postgresql restart
+>>>>>>> refs/heads/amelioration_log
 
 # Apache configuration
 sudo sh -c 'echo "ServerName localhost" >> /etc/apache2/apache2.conf'
@@ -138,8 +145,15 @@ sudo apache2ctl restart
 
 # Installing GeoNature with current user
 echo ; echo "Téléchargement et installation de GeoNature ..." ; echo
+<<<<<<< HEAD
 git clone -b dev https://github.com/lolofr/GeoNature.git
 mv GeoNature /home/`whoami`/geonature/
+=======
+wget https://github.com/PnX-SI/GeoNature/archive/$geonature_release.zip
+unzip $geonature_release.zip
+rm $geonature_release.zip
+mv GeoNature-$geonature_release /home/`whoami`/geonature/
+>>>>>>> refs/heads/amelioration_log
 sudo chown `whoami` /home/`whoami`/geonature/
 
 cd /home/`whoami`/geonature
