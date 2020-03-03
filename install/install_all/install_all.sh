@@ -287,6 +287,7 @@ if [ "$install_usershub_app" = true ]; then
     echo ; echo "Installation de la base de données et configuration de l'application UsersHub ..." ; echo
     cp config/settings.ini.sample config/settings.ini
     sed -i "s/db_host=.*$/db_host=$pg_host/g" config/settings.ini
+    sed -i "s/db_port=.*$/pg_port=$pg_port/g" config/settings.ini
     sed -i "s/db_name=.*$/db_name=$geonaturedb_name/g" config/settings.ini
     sed -i "s/user_pg=.*$/user_pg=$user_pg/g" config/settings.ini
     sed -i "s/user_pg_pass=.*$/user_pg_pass=$user_pg_pass/g" config/settings.ini
